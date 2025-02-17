@@ -1,6 +1,29 @@
-
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../auth/authActions";
 
 function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login({ username, password }))
+      .unwrap()
+      .catch((err) => setError(err));
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/user");
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <>
       <nav className="main-nav">
@@ -13,7 +36,7 @@ function Login() {
           <h1 className="sr-only">Argent Bank</h1>
         </a>
         <div>
-          <a className="main-nav-item" href="/sign-in">
+          <a className="main-nav-item" href="/login">
             <i className="fa fa-user-circle"></i>
             Sign In
           </a>
@@ -23,21 +46,33 @@ function Login() {
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
           <h1>Sign In</h1>
-          <form>
+          <form onSubmit={onSubmit}>
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" />
+              <input
+                type="text"
+                id="username"
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" />
+              <input
+                type="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="input-remember">
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember me</label>
             </div>
-            <a href="/user" className="sign-in-button">Sign In</a>
+            <button type="submit" className="sign-in-button">
+              Sign In
+            </button>
           </form>
+          {error && <p className="error-message">{error}</p>}
+          {isAuthenticated && <p>You are logged in!</p>}
         </section>
       </main>
       <footer className="footer">

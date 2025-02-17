@@ -1,5 +1,14 @@
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../auth/authActions";
 
 function User() {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <>
       <nav className="main-nav">
@@ -16,7 +25,7 @@ function User() {
             <i className="fa fa-user-circle"></i>
             Tony
           </a>
-          <a className="main-nav-item" href="/">
+          <a className="main-nav-item" href="/login" onClick={handleLogout}>
             <i className="fa fa-sign-out"></i>
             Sign Out
           </a>
