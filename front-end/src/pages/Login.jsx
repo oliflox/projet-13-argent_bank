@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../auth/authActions";
+import NavGuests from "../components/nav_guests";
+import NavConnected from "../components/nav_connected";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -20,28 +22,13 @@ function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/user");
+      navigate("/profile");
     }
   }, [isAuthenticated, navigate]);
 
   return (
     <>
-      <nav className="main-nav">
-        <a className="main-nav-logo" href="/">
-          <img
-            className="main-nav-logo-image"
-            src="./src/assets/img/argentBankLogo.png"
-            alt="Argent Bank Logo"
-          />
-          <h1 className="sr-only">Argent Bank</h1>
-        </a>
-        <div>
-          <a className="main-nav-item" href="/login">
-            <i className="fa fa-user-circle"></i>
-            Sign In
-          </a>
-        </div>
-      </nav>
+      {isAuthenticated ? <NavConnected /> : <NavGuests />}
       <main className="main bg-dark">
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>

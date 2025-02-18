@@ -1,6 +1,7 @@
+import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../auth/authActions";
+import NavConnected from "../components/nav_connected";
 
 function User() {
   const dispatch = useDispatch();
@@ -11,26 +12,7 @@ function User() {
 
   return (
     <>
-      <nav className="main-nav">
-        <a className="main-nav-logo" href="/">
-          <img
-            className="main-nav-logo-image"
-            src="./src/assets/img/argentBankLogo.png"
-            alt="Argent Bank Logo"
-          />
-          <h1 className="sr-only">Argent Bank</h1>
-        </a>
-        <div>
-          <a className="main-nav-item" href="/user">
-            <i className="fa fa-user-circle"></i>
-            Tony
-          </a>
-          <a className="main-nav-item" href="/login" onClick={handleLogout}>
-            <i className="fa fa-sign-out"></i>
-            Sign Out
-          </a>
-        </div>
-      </nav>
+      <NavConnected />
       <main className="main bg-dark">
         <div className="header">
           <h1>Welcome back<br />Tony Jarvis!</h1>

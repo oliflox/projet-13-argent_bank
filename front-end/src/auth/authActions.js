@@ -5,7 +5,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
   if (response.token) {
     return response.token;
   } else {
-    return rejectWithValue('Invalid username or password');
+    return rejectWithValue('Pseudo ou mot de passe incorrect');
   }
 });
 
@@ -15,7 +15,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 const fakeApiLogin = async (credentials) => {
   const { username, password } = credentials;
-  if (username === 'specificUsername' && password === 'specificPassword') {
+  if (username === 'Admin' && password === 'Admin') {
     return { token: 'fake-token' };
   } else {
     return {};
@@ -23,5 +23,4 @@ const fakeApiLogin = async (credentials) => {
 };
 
 const fakeApiLogout = async () => {
-  // Simulate API call
 };

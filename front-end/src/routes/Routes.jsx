@@ -22,7 +22,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route
-          path="/user"
+          path="/profile"
           element={
             <PrivateRoute>
               <User />
