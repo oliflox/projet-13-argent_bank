@@ -1,4 +1,4 @@
-const getUser = async () => {
+const apiProfileCall = async () => {
   const baseUrl = 'http://localhost:3001';
   const endpoint = '/api/v1/user/profile';
   const token = localStorage.getItem('token');
@@ -14,13 +14,16 @@ const getUser = async () => {
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, options);
     const data = await response.json();
-    console.log('Status:', data.status);
-    console.log('Message:', data.message);
-    console.log('User ID:', data.body.id);
-    console.log('User Email:', data.body.email);
+    if (data.status === 200) {
+      return data.body;
+    } else {
+      console.error('Error:', data.message);
+      return null;
+    }
   } catch (error) {
     console.error('Error fetching user data:', error);
+    return null;
   }
 }
 
-export { getUser };
+export { apiProfileCall };
