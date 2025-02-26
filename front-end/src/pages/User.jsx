@@ -1,14 +1,7 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../auth/authActions";
 import NavConnected from "../components/nav_connected";
 
 function User() {
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
   return (
     <>

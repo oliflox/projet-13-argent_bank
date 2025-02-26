@@ -6,7 +6,7 @@ import NavGuests from "../components/nav_guests";
 import NavConnected from "../components/nav_connected";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
@@ -15,8 +15,11 @@ function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ username, password }))
+    dispatch(login({ email, password }))
       .unwrap()
+      .then((token) => {
+        localStorage.setItem('token', token);
+      })
       .catch((err) => setError(err));
   };
 
@@ -35,11 +38,11 @@ function Login() {
           <h1>Sign In</h1>
           <form onSubmit={onSubmit}>
             <div className="input-wrapper">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="email">email</label>
               <input
                 type="text"
-                id="username"
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                onChange={(e) => setemail(e.target.value)}
               />
             </div>
             <div className="input-wrapper">
