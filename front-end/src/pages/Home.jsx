@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import NavGuests from "../components/nav_guests";
 import NavConnected from "../components/nav_connected";
+import { apiProfileCall } from "../features/apiProfileCall";
 
 function Home() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [firstName, setFirstName] = useState('');
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchUserData = async () => {
+        const userData = await apiProfileCall();
+        if (userData) {
+          setFirstName(userData.firstName);
+        }
+      };
+      fetchUserData();
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
-      {isAuthenticated ? <NavConnected /> : <NavGuests />}
+      {isAuthenticated ? <NavConnected firstName={firstName} /> : <NavGuests />}
       <main>
         <div className="hero">
           <section className="hero-content">

@@ -17,7 +17,7 @@ function User() {
 
   return (
     <>
-      <NavConnected />
+      <NavConnected firstName={user.firstName} />
       <main className="main bg-dark">
         <div className="header">
           <h1>Welcome back<br />{user.firstName} {user.lastName}!</h1>

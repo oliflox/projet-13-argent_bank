@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../auth/authActions";
 
-function NavConnected() {
+function NavConnected({ firstName }) {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -22,7 +22,7 @@ function NavConnected() {
       <div>
         <a className="main-nav-item" href="/profile">
           <i className="fa fa-user-circle"></i>
-          Tony
+          {firstName}
         </a>
         <a className="main-nav-item" href="/" onClick={handleLogout}>
           <i className="fa fa-sign-out"></i>
