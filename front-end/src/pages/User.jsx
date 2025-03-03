@@ -26,7 +26,11 @@ function User() {
   };
 
   const handleSaveClick = async () => {
-    const updatedUser = { firstName: newFirstName, lastName: newLastName };
+    if (newFirstName.trim().length < 2 || newLastName.trim().length < 2) {
+      setError("First name and last name must be at least 2 characters long.");
+      return;
+    }
+    const updatedUser = { firstName: newFirstName.trim(), lastName: newLastName.trim() };
     const success = await apiUpdateProfileCall(updatedUser);
     if (success) {
       setUser(updatedUser);
