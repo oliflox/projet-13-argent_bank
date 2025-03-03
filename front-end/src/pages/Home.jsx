@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import NavGuests from "../components/nav_guests";
 import NavConnected from "../components/nav_connected";
-import { apiProfileCall } from "../features/apiProfileCall";
+import { apiProfileCall } from "../api/apiProfileCall";
 
 function Home() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);

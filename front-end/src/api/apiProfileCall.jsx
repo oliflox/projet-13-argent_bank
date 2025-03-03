@@ -1,7 +1,9 @@
-const apiProfileCall = async () => {
+import {store} from '../store';
+
+export const apiProfileCall = async () => {
   const baseUrl = 'http://localhost:3001';
   const endpoint = '/api/v1/user/profile';
-  const token = localStorage.getItem('token');
+  const token = store.getState().auth.token;
 
   const options = {
     method: 'POST',
@@ -18,12 +20,8 @@ const apiProfileCall = async () => {
       return data.body;
     } else {
       console.error('Error:', data.message);
-      return null;
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
-    return null;
   }
 }
-
-export { apiProfileCall };

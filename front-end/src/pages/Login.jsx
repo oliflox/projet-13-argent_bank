@@ -17,9 +17,6 @@ function Login() {
     e.preventDefault();
     dispatch(login({ email, password }))
       .unwrap()
-      .then((token) => {
-        localStorage.setItem('token', token);
-      })
       .catch((err) => setError(err));
   };
 

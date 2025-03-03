@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavConnected from "../components/nav_connected";
-import { apiProfileCall } from "../features/apiProfileCall";
+import { apiProfileCall } from "../api/apiProfileCall";
 
 function User() {
   const [user, setUser] = useState({ firstName: '', lastName: '' });

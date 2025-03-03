@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiLogin } from '../features/apiLoginCall';
+import { ApiLogin } from '../api/apiLoginCall';
 
 export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
   try {
@@ -10,6 +10,6 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
   }
 });
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  localStorage.removeItem('token');
+export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) => {
+  dispatch({ type: 'auth/logout' });
 });
