@@ -3,11 +3,11 @@ import NavConnected from "../components/nav_connected";
 import { apiProfileCall, apiUpdateProfileCall } from "../api/apiProfileCall";
 
 function User() {
-  const [user, setUser] = useState({ firstName: '', lastName: '' });
+  const [user, setUser] = useState({ firstName: "", lastName: "" });
   const [isEditing, setIsEditing] = useState(false);
-  const [newFirstName, setNewFirstName] = useState('');
-  const [newLastName, setNewLastName] = useState('');
-  const [error, setError] = useState('');
+  const [newFirstName, setNewFirstName] = useState("");
+  const [newLastName, setNewLastName] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -31,10 +31,17 @@ function User() {
     if (success) {
       setUser(updatedUser);
       setIsEditing(false);
-      setError('');
+      setError("");
     } else {
-      setError('Failed to update profile. Please try again.');
+      setError("Failed to update profile. Please try again.");
     }
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    setNewFirstName(user.firstName);
+    setNewLastName(user.lastName);
+    setError("");
   };
 
   return (
@@ -42,24 +49,37 @@ function User() {
       <NavConnected firstName={user.firstName} />
       <main className="main bg-dark">
         <div className="header">
-          <h1>Welcome back<br />{user.firstName} {user.lastName}!</h1>
+          <h1>
+            Welcome back
+            <br />
+            {user.firstName} {user.lastName}!
+          </h1>
           {isEditing ? (
             <div>
-              <input 
-                type="text" 
-                value={newFirstName} 
-                onChange={(e) => setNewFirstName(e.target.value)} 
-              />
-              <input 
-                type="text" 
-                value={newLastName} 
-                onChange={(e) => setNewLastName(e.target.value)} 
-              />
-              <button onClick={handleSaveClick}>Save</button>
+              <div className="edit-container">
+                <input
+                  type="text"
+                  value={newFirstName}
+                  className="edit-input"
+                  onChange={(e) => setNewFirstName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  value={newLastName}
+                  className="edit-input"
+                  onChange={(e) => setNewLastName(e.target.value)}
+                />
+              </div>
+              <div className="button-container">
+                <button className="active-edit-button" onClick={handleSaveClick}>Save</button>
+                <button className="active-edit-button" onClick={handleCancelClick}>Cancel</button>
+              </div>
               {error && <p className="error-message">{error}</p>}
             </div>
           ) : (
-            <button className="edit-button" onClick={handleEditClick}>Edit Name</button>
+            <button className="edit-button" onClick={handleEditClick}>
+              Edit Name
+            </button>
           )}
         </div>
         <h2 className="sr-only">Accounts</h2>
