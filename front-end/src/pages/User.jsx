@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import NavConnected from "../components/nav_connected";
-import { apiProfileCall } from "../api/apiProfileCall";
+import { apiProfileCall, apiUpdateProfileCall } from "../api/apiProfileCall";
 
 function User() {
   const [user, setUser] = useState({ firstName: '', lastName: '' });
+  const [isEditing, setIsEditing] = useState(false);
+  const [newFirstName, setNewFirstName] = useState('');
+  const [newLastName, setNewLastName] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -15,13 +19,48 @@ function User() {
     fetchUserData();
   }, []);
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setNewFirstName(user.firstName);
+    setNewLastName(user.lastName);
+  };
+
+  const handleSaveClick = async () => {
+    const updatedUser = { firstName: newFirstName, lastName: newLastName };
+    const success = await apiUpdateProfileCall(updatedUser);
+    if (success) {
+      setUser(updatedUser);
+      setIsEditing(false);
+      setError('');
+    } else {
+      setError('Failed to update profile. Please try again.');
+    }
+  };
+
   return (
     <>
       <NavConnected firstName={user.firstName} />
       <main className="main bg-dark">
         <div className="header">
           <h1>Welcome back<br />{user.firstName} {user.lastName}!</h1>
-          <button className="edit-button">Edit Name</button>
+          {isEditing ? (
+            <div>
+              <input 
+                type="text" 
+                value={newFirstName} 
+                onChange={(e) => setNewFirstName(e.target.value)} 
+              />
+              <input 
+                type="text" 
+                value={newLastName} 
+                onChange={(e) => setNewLastName(e.target.value)} 
+              />
+              <button onClick={handleSaveClick}>Save</button>
+              {error && <p className="error-message">{error}</p>}
+            </div>
+          ) : (
+            <button className="edit-button" onClick={handleEditClick}>Edit Name</button>
+          )}
         </div>
         <h2 className="sr-only">Accounts</h2>
         <section className="account">
