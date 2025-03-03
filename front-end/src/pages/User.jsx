@@ -35,7 +35,6 @@ function User() {
     if (success) {
       setUser(updatedUser);
       setIsEditing(false);
-      setError("");
     } else {
       setError("Failed to update profile. Please try again.");
     }
@@ -43,9 +42,6 @@ function User() {
 
   const handleCancelClick = () => {
     setIsEditing(false);
-    setNewFirstName(user.firstName);
-    setNewLastName(user.lastName);
-    setError("");
   };
 
   return (

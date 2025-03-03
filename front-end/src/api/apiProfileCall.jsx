@@ -1,18 +1,21 @@
 import { store } from '../store';
 
+const baseUrl = 'http://localhost:3001';
+const endpoint = '/api/v1/user/profile';
+
+const getToken = () => store.getState().auth.token;
+
+const getOptions = (method, body = null) => ({
+  method,
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${getToken()}`,
+  },
+  body: body ? JSON.stringify(body) : null,
+});
+
 export const apiProfileCall = async () => {
-  const baseUrl = 'http://localhost:3001';
-  const endpoint = '/api/v1/user/profile';
-  const token = store.getState().auth.token;
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+  const options = getOptions('POST');
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, options);
     const data = await response.json();
@@ -27,19 +30,7 @@ export const apiProfileCall = async () => {
 };
 
 export const apiUpdateProfileCall = async (updatedUser) => {
-  const baseUrl = 'http://localhost:3001';
-  const endpoint = '/api/v1/user/profile';
-  const token = store.getState().auth.token;
-
-  const options = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(updatedUser),
-  };
-
+  const options = getOptions('PUT', updatedUser);
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, options);
     const data = await response.json();
