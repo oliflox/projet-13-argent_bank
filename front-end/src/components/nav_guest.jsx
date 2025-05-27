@@ -28,8 +28,4 @@ function NavGuest() {
   );
 }
 
-NavGuest.propTypes = {
-  // Ajoutez ici les props si nécessaire
-};
-
 export default NavGuest; 

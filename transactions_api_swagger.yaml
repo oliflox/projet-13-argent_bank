@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  title: ArgentBank Transactions API
+  version: 1.0.0
+  description: API permettant la gestion des transactions utilisateur.
+
+paths:
+
+  /accounts/{accountId}/transactions:
+    get:
+      summary: Liste les transactions du mois en cours pour un compte.
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: string
+          required: true
+          description: ID du compte bancaire.
+      responses:
+        '200':
+          description: Liste des transactions récupérée avec succès.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '401':
+          description: Non autorisé (JWT manquant ou invalide).
+        '404':
+          description: Compte non trouvé.
+
+  /transactions/{transactionId}:
+    get:
+      summary: Récupère les détails d’une transaction.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          required: true
+          description: ID de la transaction.
+      responses:
+        '200':
+          description: Détails de la transaction récupérés avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDetails'
+        '401':
+          description: Non autorisé.
+        '404':
+          description: Transaction non trouvée.
+
+    put:
+      summary: Met à jour les informations d’une transaction (catégorie, notes).
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionUpdate'
+      responses:
+        '200':
+          description: Transaction mise à jour.
+        '400':
+          description: Données invalides.
+        '401':
+          description: Non autorisé.
+        '404':
+          description: Transaction non trouvée.
+
+    delete:
+      summary: Supprime une transaction.
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: Transaction supprimée.
+        '401':
+          description: Non autorisé.
+        '404':
+          description: Transaction non trouvée.
+
+  /transactions:
+    post:
+      summary: Crée une nouvelle transaction.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTransaction'
+      responses:
+        '201':
+          description: Transaction créée avec succès.
+        '400':
+          description: Données invalides.
+        '401':
+          description: Non autorisé.
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        amount:
+          type: number
+          format: float
+        balance:
+          type: number
+          format: float
+
+    TransactionDetails:
+      allOf:
+        - $ref: '#/components/schemas/Transaction'
+        - type: object
+          properties:
+            category:
+              type: string
+            notes:
+              type: string
+            transactionType:
+              type: string
+
+    TransactionUpdate:
+      type: object
+      properties:
+        category:
+          type: string
+        notes:
+          type: string
+
+    NewTransaction:
+      type: object
+      required:
+        - accountId
+        - amount
+        - description
+        - date
+      properties:
+        accountId:
+          type: string
+        amount:
+          type: number
+        description:
+          type: string
+        date:
+          type: string
+          format: date
+        category:
+          type: string
+        notes:
+          type: string

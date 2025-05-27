@@ -1,7 +1,7 @@
 import { store } from '../store';
 
-const baseUrl = 'http://localhost:3001';
-const endpoint = '/api/v1/user/profile';
+const baseUrl = import.meta.env.VITE_API_URL;
+const endpoint = '/profile';
 
 const getToken = () => store.getState().auth.token;
 
