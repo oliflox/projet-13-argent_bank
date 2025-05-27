@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../auth/authActions";
-import NavGuests from "../components/nav_guests";
+import NavGuest from "../components/nav_guest";
 import NavConnected from "../components/nav_connected";
 
 function Login() {
@@ -28,7 +28,7 @@ function Login() {
 
   return (
     <>
-      {isAuthenticated ? <NavConnected /> : <NavGuests />}
+      {isAuthenticated ? <NavConnected /> : <NavGuest />}
       <main className="main bg-dark">
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>

@@ -8,12 +8,18 @@ function User() {
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userData = await apiProfileCall();
-      if (userData) {
-        setUser({ firstName: userData.firstName, lastName: userData.lastName });
+      try {
+        const userData = await apiProfileCall();
+        if (userData) {
+          setUser({ firstName: userData.firstName, lastName: userData.lastName });
+        }
+      } catch (error) {
+        setError("Failed to load user data. Please try again.");
       }
     };
     fetchUserData();
@@ -23,6 +29,8 @@ function User() {
     setIsEditing(true);
     setNewFirstName(user.firstName);
     setNewLastName(user.lastName);
+    setError("");
+    setSuccessMessage("");
   };
 
   const handleSaveClick = async () => {
@@ -30,18 +38,32 @@ function User() {
       setError("First name and last name must be at least 2 characters long.");
       return;
     }
-    const updatedUser = { firstName: newFirstName.trim(), lastName: newLastName.trim() };
-    const success = await apiUpdateProfileCall(updatedUser);
-    if (success) {
+
+    setIsLoading(true);
+    setError("");
+    setSuccessMessage("");
+
+    try {
+      const updatedUser = { 
+        firstName: newFirstName.trim(), 
+        lastName: newLastName.trim() 
+      };
+      
+      await apiUpdateProfileCall(updatedUser);
       setUser(updatedUser);
       setIsEditing(false);
-    } else {
-      setError("Failed to update profile. Please try again.");
+      setSuccessMessage("Profile updated successfully!");
+    } catch (error) {
+      setError(error.message || "Failed to update profile. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleCancelClick = () => {
     setIsEditing(false);
+    setError("");
+    setSuccessMessage("");
   };
 
   return (
@@ -62,22 +84,43 @@ function User() {
                   value={newFirstName}
                   className="edit-input"
                   onChange={(e) => setNewFirstName(e.target.value)}
+                  disabled={isLoading}
+                  placeholder="First Name"
                 />
                 <input
                   type="text"
                   value={newLastName}
                   className="edit-input"
                   onChange={(e) => setNewLastName(e.target.value)}
+                  disabled={isLoading}
+                  placeholder="Last Name"
                 />
               </div>
               <div className="button-container">
-                <button className="active-edit-button" onClick={handleSaveClick}>Save</button>
-                <button className="active-edit-button" onClick={handleCancelClick}>Cancel</button>
+                <button 
+                  className="active-edit-button" 
+                  onClick={handleSaveClick}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Saving..." : "Save"}
+                </button>
+                <button 
+                  className="active-edit-button" 
+                  onClick={handleCancelClick}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </button>
               </div>
               {error && <p className="error-message">{error}</p>}
+              {successMessage && <p className="success-message">{successMessage}</p>}
             </div>
           ) : (
-            <button className="edit-button" onClick={handleEditClick}>
+            <button 
+              className="edit-button" 
+              onClick={handleEditClick}
+              disabled={isLoading}
+            >
               Edit Name
             </button>
           )}

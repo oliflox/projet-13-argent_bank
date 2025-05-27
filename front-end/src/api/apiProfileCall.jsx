@@ -22,10 +22,11 @@ export const apiProfileCall = async () => {
     if (data.status === 200) {
       return data.body;
     } else {
-      console.error('Error:', data.message);
+      throw new Error(data.message || 'Failed to fetch user data');
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
+    throw error;
   }
 };
 
@@ -34,14 +35,24 @@ export const apiUpdateProfileCall = async (updatedUser) => {
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, options);
     const data = await response.json();
+    
     if (data.status === 200) {
-      return true;
+      // Vérifier que les données ont été correctement mises à jour
+      const verifyResponse = await fetch(`${baseUrl}${endpoint}`, getOptions('POST'));
+      const verifyData = await verifyResponse.json();
+      
+      if (verifyData.status === 200 && 
+          verifyData.body.firstName === updatedUser.firstName && 
+          verifyData.body.lastName === updatedUser.lastName) {
+        return true;
+      } else {
+        throw new Error('Profile update verification failed');
+      }
     } else {
-      console.error('Error:', data.message);
-      return false;
+      throw new Error(data.message || 'Failed to update profile');
     }
   } catch (error) {
     console.error('Error updating user data:', error);
-    return false;
+    throw error;
   }
 };

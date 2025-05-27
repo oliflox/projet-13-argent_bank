@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import NavGuests from "../components/nav_guests";
+import NavGuest from "../components/nav_guest";
 import NavConnected from "../components/nav_connected";
 import { apiProfileCall } from "../api/apiProfileCall";
 
@@ -22,7 +22,7 @@ function Home() {
 
   return (
     <>
-      {isAuthenticated ? <NavConnected firstName={firstName} /> : <NavGuests />}
+      {isAuthenticated ? <NavConnected firstName={firstName} /> : <NavGuest />}
       <main>
         <div className="hero">
           <section className="hero-content">
