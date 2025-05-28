@@ -37,7 +37,6 @@ export const apiUpdateProfileCall = async (updatedUser) => {
     const data = await response.json();
     
     if (data.status === 200) {
-      // Vérifier que les données ont été correctement mises à jour
       const verifyResponse = await fetch(`${baseUrl}${endpoint}`, getOptions('POST'));
       const verifyData = await verifyResponse.json();
       
