@@ -18,7 +18,7 @@ body {
 }
 
 .bg-dark {
-  background-color: #12002b;
+  background-color: #dfe6ed;
 }
 
 .sr-only {
@@ -163,10 +163,18 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  border: none;
+  background-color: #635bff;
   color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
+
+.sign-in-button:hover { 
+  background-color: #4836d6;
+}
+
 
 .sign-in-content {
   box-sizing: border-box;
@@ -221,32 +229,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border: 1px solid #c6d1db;
   background-color: #fff;
-  width: 80%;
-  margin: 0 auto;
+  width: 90%;
+  margin: 0 auto 2rem auto;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 2rem 2.5rem;
   box-sizing: border-box;
   text-align: left;
-  margin-bottom: 2rem;
-}
-
-.account-amount {
-  margin: 0;
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.account-amount-description {
-  margin: 0;
-}
-
-.account-title {
-  margin: 0;
-  padding: 0;
-  font-size: 1rem;
-  font-weight: normal;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 }
 
 .account-content-wrapper {
@@ -254,68 +246,112 @@ body {
   flex: 1;
 }
 
-.edit-button {
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px;
+.account-title {
+  margin: 0 0 8px 0;
+  padding: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
 }
 
-.header {
-  color: #fff;
-  margin-bottom: 2rem;
+.account-amount {
+  margin: 0 0 4px 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+.account-amount-description {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1rem;
 }
 
 .transaction-button {
   display: block;
-  width: 100%;
-  padding: 8px;
+  width: 220px;
+  padding: 12px 0;
   font-size: 1.1rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  font-weight: 500;
+  margin-top: 0;
+  border: none;
+  background-color: #635bff;
   color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.transaction-button:hover {
+  background-color: #4836d6;
+}
+
+.header {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Centrage du titre et des inputs d'édition */
+.header h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
 }
 
 .edit-container {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .edit-input {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: 1px solid #c6d1db;
+  font-size: 1.1rem;
+  background: #f5f7fa;
+  color: #2c3e50;
+  min-width: 160px;
+  text-align: left;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .active-edit-button {
-  padding: 8px;
-  border: none;
-  background-color: #00bc77;
-  font-weight: bold;
-  color: white;
+  padding: 8px 32px;
+  border: 1px solid #635bff;
+  background: #fff;
+  color: #635bff;
+  font-weight: 500;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.active-edit-button:hover {
+  background: #635bff;
+  color: #fff;
 }
 
 @media (min-width: 720px) {
   .account {
     flex-direction: row;
+    align-items: center;
+    padding: 2rem 4rem;
   }
-
   .account-content-wrapper.cta {
     flex: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
-
   .transaction-button {
-    width: 200px;
+    width: 220px;
   }
 }

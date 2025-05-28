@@ -117,7 +117,7 @@ function User() {
             </div>
           ) : (
             <button 
-              className="edit-button" 
+              className="active-edit-button" 
               onClick={handleEditClick}
               disabled={isLoading}
             >
