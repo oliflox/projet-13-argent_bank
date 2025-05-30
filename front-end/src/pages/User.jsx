@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import NavConnected from "../components/nav_connected";
-import { userProfileApi, updateUserProfileApi } from "../api/userProfileApi";
+import React, { useState } from "react";
+import Navigation from "../components/Navigation";
+import { useUserData } from "../hooks/useUserData";
+import { updateUserProfile } from "../services/userService";
 
 function User() {
-  const [user, setUser] = useState({ firstName: "", lastName: "" });
+  const { userData, error: userError, isLoading: userLoading, refreshUserData } = useUserData();
   const [isEditing, setIsEditing] = useState(false);
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
@@ -11,53 +12,33 @@ function User() {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await userProfileApi();
-        if (userData) {
-          setUser({ firstName: userData.firstName, lastName: userData.lastName });
-        }
-      } catch (error) {
-        setError("Failed to load user data. Please try again.");
-      }
-    };
-    fetchUserData();
-  }, []);
-
   const handleEditClick = () => {
     setIsEditing(true);
-    setNewFirstName(user.firstName);
-    setNewLastName(user.lastName);
+    setNewFirstName(userData.firstName);
+    setNewLastName(userData.lastName);
     setError("");
     setSuccessMessage("");
   };
 
   const handleSaveClick = async () => {
-    if (newFirstName.trim().length < 2 || newLastName.trim().length < 2) {
-      setError("First name and last name must be at least 2 characters long.");
-      return;
-    }
-
     setIsLoading(true);
     setError("");
     setSuccessMessage("");
 
-    try {
-      const updatedUser = { 
-        firstName: newFirstName.trim(), 
-        lastName: newLastName.trim() 
-      };
-      
-      await updateUserProfileApi(updatedUser);
-      setUser(updatedUser);
+    const result = await updateUserProfile({
+      firstName: newFirstName,
+      lastName: newLastName
+    });
+
+    if (result.success) {
+      await refreshUserData();
       setIsEditing(false);
       setSuccessMessage("Profile updated successfully!");
-    } catch (error) {
-      setError(error.message || "Failed to update profile. Please try again.");
-    } finally {
-      setIsLoading(false);
+    } else {
+      setError(result.error);
     }
+    
+    setIsLoading(false);
   };
 
   const handleCancelClick = () => {
@@ -68,13 +49,13 @@ function User() {
 
   return (
     <>
-      <NavConnected firstName={user.firstName} />
+      <Navigation isAuthenticated={true} firstName={userData.firstName} />
       <main className="main bg-dark">
         <div className="header">
           <h1>
             Welcome back
             <br />
-            {user.firstName} {user.lastName}!
+            {userData.firstName} {userData.lastName}!
           </h1>
           {isEditing ? (
             <div>

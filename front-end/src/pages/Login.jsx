@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../auth/authActions";
-import NavGuest from "../components/nav_guest";
-import NavConnected from "../components/nav_connected";
+import { useDispatch } from "react-redux";
+import { handleLogin } from "../services/authService";
+import Navigation from "../components/Navigation";
 
 function Login() {
   const [email, setemail] = useState("");
@@ -13,11 +13,12 @@ function Login() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }))
-      .unwrap()
-      .catch((err) => setError(err));
+    const result = await handleLogin(email, password, dispatch);
+    if (!result.success) {
+      setError(result.error);
+    }
   };
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function Login() {
 
   return (
     <>
-      {isAuthenticated ? <NavConnected /> : <NavGuest />}
+      <Navigation isAuthenticated={isAuthenticated} />
       <main className="main bg-dark">
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
