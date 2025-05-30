@@ -1,4 +1,4 @@
-export const ApiLogin = async (credentials) => {
+export const authApi = async (credentials) => {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
     method: 'POST',
     headers: {

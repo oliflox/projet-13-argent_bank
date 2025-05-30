@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavConnected from "../components/nav_connected";
-import { apiProfileCall, apiUpdateProfileCall } from "../api/apiProfileCall";
+import { userProfileApi, updateUserProfileApi } from "../api/userProfileApi";
 
 function User() {
   const [user, setUser] = useState({ firstName: "", lastName: "" });
@@ -14,7 +14,7 @@ function User() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await apiProfileCall();
+        const userData = await userProfileApi();
         if (userData) {
           setUser({ firstName: userData.firstName, lastName: userData.lastName });
         }
@@ -49,7 +49,7 @@ function User() {
         lastName: newLastName.trim() 
       };
       
-      await apiUpdateProfileCall(updatedUser);
+      await updateUserProfileApi(updatedUser);
       setUser(updatedUser);
       setIsEditing(false);
       setSuccessMessage("Profile updated successfully!");

@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiLogin } from '../api/apiLoginCall';
+import { authApi } from '../api/authApi';
 
 export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
   try {
-    const response = await ApiLogin(credentials);
+    const response = await authApi(credentials);
     return response.token;
   } catch (error) {
     return rejectWithValue(error.message);

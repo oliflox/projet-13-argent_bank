@@ -14,7 +14,7 @@ const getOptions = (method, body = null) => ({
   body: body ? JSON.stringify(body) : null,
 });
 
-export const apiProfileCall = async () => {
+export const userProfileApi = async () => {
   const options = getOptions('POST');
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, options);
@@ -30,7 +30,7 @@ export const apiProfileCall = async () => {
   }
 };
 
-export const apiUpdateProfileCall = async (updatedUser) => {
+export const updateUserProfileApi = async (updatedUser) => {
   const options = getOptions('PUT', updatedUser);
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, options);
