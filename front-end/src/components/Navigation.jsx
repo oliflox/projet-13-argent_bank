@@ -1,7 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../auth/authActions";
 
 function Navigation({ isAuthenticated, firstName }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await dispatch(logout());
+    navigate("/", { replace: true });
+  };
+
   return (
     <nav className="main-nav">
       <Link className="main-nav-logo" to="/">
@@ -19,7 +29,7 @@ function Navigation({ isAuthenticated, firstName }) {
               <i className="fa fa-user-circle"></i>
               {firstName}
             </Link>
-            <Link className="main-nav-item" to="/sign-out">
+            <Link className="main-nav-item" onClick={handleLogout}>
               <i className="fa fa-sign-out"></i>
               Sign Out
             </Link>
